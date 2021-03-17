@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "ChessServer": {
+      "commandName": "Project"
+    }
+  }
+}
