@@ -65,7 +65,8 @@ namespace ChessServer
                 }
             }
 
-
+            //Server s = new Server(32168);
+            //s.StartListening();
 
             Board b = new Board();
             b.Print();
