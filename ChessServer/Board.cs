@@ -9,25 +9,33 @@ namespace ChessServer
     class Board
     {
         private char[] squares = new char[64];
-        private string playerToMove;
+        public Player playerToMove { get; private set; }
         private string castlingRights;
         private string enPassantMove;
         private int numHalfMoves;
         private int numTurns;
         private Stack<string> fenHistory = new Stack<string>();
 
-        public Board(string fen="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+        public Board(string fen)
         {
             this.ParseFen(fen);
             this.fenHistory.Push(fen);
         }
 
-        public void DoMove(string move)
+        public bool ValidateMove(string move)
+        {
+
+            return true;
+        }
+
+        public bool DoMove(string move)
         {
             // First do the move
 
             // Then save the resulting fen to the history
             this.fenHistory.Push(this.GenerateFen());
+            // Todo: Determine game over and return
+            return false;
         }
 
         public void UndoMove()
@@ -65,7 +73,8 @@ namespace ChessServer
                         {
                             this.squares[currentRow * 8 + i + j] = ' ';
                         }
-                    } else
+                    }
+                    else
                     {
                         this.squares[currentRow * 8 + i] = row[i];
                     }
@@ -74,7 +83,14 @@ namespace ChessServer
             }
 
             // Second Group: Player to move
-            this.playerToMove = groups[1];
+            if (groups[1] == "w")
+            {
+                this.playerToMove = Player.WHITE;
+            }
+            else if (groups[1] == "b")
+            {
+                this.playerToMove = Player.BLACK;
+            }
 
             // Third Group: Castling rights
             this.castlingRights = groups[2];
@@ -96,9 +112,11 @@ namespace ChessServer
             string row = "";
             for (int i = 1; i <= 64; i++)
             {
-                if (this.squares[i - 1] == ' ') {
+                if (this.squares[i - 1] == ' ')
+                {
                     skippedFields += 1;
-                } else
+                }
+                else
                 {
                     if (skippedFields > 0)
                     {

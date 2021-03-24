@@ -8,7 +8,7 @@
 
     enum MessageType : byte
     {
-        CLIENT_CONNECTION = 1,
+        COLOR_ASSIGNMENT = 1,
         INITIAL_FEN,
         CLIENT_MOVE,
         INVALID_MOVE,
